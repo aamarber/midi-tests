@@ -1,17 +1,16 @@
-const NotesMap = {
-    48: 'C3',
-    49: 'C#3',
-    50: 'D3',
-    51: 'D#3',
-    52: 'E3',
-    53: 'F3',
-    54: 'F#3',
-    55: 'G3',
-    56: 'G#3',
-    57: 'A3',
-    58: 'A#3',
-    59: 'B3',
-    60: 'C4',
-};
+import notesProgression from './ASPNNotesProgression';
+
+const getNotesMap = () => {
+    let result = {};
+    
+    for(let i = 21; i < 108; i++){
+
+        result[i] = notesProgression[i % 12] + Math.floor(i/12);
+    }
+
+    return result;
+}
+
+let NotesMap = getNotesMap();
 
 export default NotesMap;

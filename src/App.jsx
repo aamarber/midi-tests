@@ -1,7 +1,5 @@
 import React from 'react'
-import NotesMap from './MusicTools/NotesMap';
-import sampler from './MusicTools/DefaultSampler';
-import SignalCodes from './MusicTools/MidiSignalCodes';
+import Keyboard from './MusicKeyboard/Keyboard';
 
 export default function App() {
 
@@ -23,20 +21,7 @@ export default function App() {
       
       setInputs([...inputs, device]);
 
-      device.onmidimessage = (message) => {
-        const noteMapped = NotesMap[message.data[1]];
-
-        if(!noteMapped){
-          console.log(`Note ${message.data[1]} not found in map.`);
-          return;
-        }
-
-        console.log(message);
-        if(message.data[0] === SignalCodes.NOTE_ON)
-          sampler.triggerAttack(noteMapped);
-        else if(message.data[0] === SignalCodes.NOTE_OFF)
-          sampler.triggerRelease(noteMapped);
-      };
+      
   });
 
   access.onstatechange = (event) => {
@@ -50,7 +35,10 @@ export default function App() {
       <h1>MIDI Controller</h1>
       <ul>
         {inputs.map((input, index) => (
-          <li key={index}>{input.name}</li>
+          <>
+            <li key={index}>{input.name}</li>
+            <Keyboard octaveStart={2} octaveEnd={9} midiDevice={input} />
+          </>
         ))}
       </ul>
     </>
